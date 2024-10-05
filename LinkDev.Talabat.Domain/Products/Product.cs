@@ -1,6 +1,4 @@
-﻿using LinkDev.Talabat.Core.Domain.Common;
-
-namespace LinkDev.Talabat.Core.Domain.Products
+﻿namespace LinkDev.Talabat.Core.Domain.Products
 {
     public class Product : BaseEntity<int>
     {
@@ -10,7 +8,7 @@ namespace LinkDev.Talabat.Core.Domain.Products
         public decimal Price { get; set; }
         public int? BrandId { get; set; } // Forign key 
         public virtual ProductBrand? Brand { get; set; }
-        public int? MyProperty { get; set; } // Forign key
+        public int? CategoryId { get; set; } // Forign key
         public virtual ProductCategory? Category { get; set; }
 
 
