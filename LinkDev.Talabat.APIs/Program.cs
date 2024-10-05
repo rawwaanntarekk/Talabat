@@ -1,12 +1,10 @@
-
 using LinkDev.Talabat.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-
 namespace LinkDev.Talabat.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +22,29 @@ namespace LinkDev.Talabat.APIs
             #endregion
 
             var app = webApplicationBuilder.Build();
+
+            #region Updating Database
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<StoreContext>();
+            // Ask Rutime for an object of type StoreContext  "Explicitly"
+
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+            try
+            {
+                var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
+                if (pendingMigrations.Any())
+                {
+                    await context.Database.MigrateAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "An error occurred while migrating database.");
+            } 
+            #endregion
 
             #region Configure Kestrel Middlewares
             // Configure the HTTP request pipeline.
