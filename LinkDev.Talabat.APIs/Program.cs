@@ -1,4 +1,5 @@
 using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 namespace LinkDev.Talabat.APIs
 {
@@ -38,11 +39,13 @@ namespace LinkDev.Talabat.APIs
                 {
                     await context.Database.MigrateAsync();
                 }
+
+                await StoreContextSeed.SeedAsync(context);
             }
             catch (Exception ex)
             {
                 var logger = loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "An error occurred while migrating database.");
+                logger.LogError(ex, "An error occurred while migrating or seeding  database.");
             } 
             #endregion
 
