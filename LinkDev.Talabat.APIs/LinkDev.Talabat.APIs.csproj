@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinkDev.Talabat.Persistence\LinkDev.Talabat.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\LinkDev.Talabat.Infrastructure.Persistence\LinkDev.Talabat.Infrastructure.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
