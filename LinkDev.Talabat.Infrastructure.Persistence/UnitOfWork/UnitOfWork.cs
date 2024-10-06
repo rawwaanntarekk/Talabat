@@ -1,34 +1,27 @@
-﻿using LinkDev.Talabat.Core.Domain.Contracts;
-using LinkDev.Talabat.Core.Domain.Products;
+﻿using LinkDev.Talabat.Core.Domain.Common;
+using LinkDev.Talabat.Core.Domain.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence.Repositories;
+using System.Collections.Concurrent;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 {
-    internal class UnitOfWork : IUnitOfWork
+    internal class UnitOfWork(StoreContext dbContext) : IUnitOfWork
     {
-        private readonly StoreContext _dbContext;
-        private readonly Lazy<IGenericRepository<ProductBrand, int>> _brandsRepository;
-        private readonly Lazy<IGenericRepository<ProductCategory, int>> _categoriesRepository;
-        private readonly Lazy<IGenericRepository<Product, int>> _productsRepository;
-        
+        private readonly ConcurrentDictionary<string, object> _repositories = new();
 
-        public UnitOfWork(StoreContext dbContext)
+        public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
+            where TEntity : BaseEntity<TKey>
+            where TKey : IEquatable<TKey>
         {
-            _dbContext = dbContext;
-            _brandsRepository = new Lazy<IGenericRepository<ProductBrand, int>>(() => new GenericRepository<ProductBrand, int>(_dbContext));
-            _categoriesRepository = new Lazy<IGenericRepository<ProductCategory, int>>(() => new GenericRepository<ProductCategory, int>(_dbContext));
-            _productsRepository = new Lazy<IGenericRepository<Product, int>>(() => new GenericRepository<Product, int>(_dbContext));
-            
+            return (IGenericRepository<TEntity, TKey>) _repositories.GetOrAdd(typeof(TEntity).Name, new GenericRepository<TEntity, TKey>(dbContext));
         }
 
-        public IGenericRepository<ProductBrand, int> brandsRepository => _brandsRepository.Value;
-        public IGenericRepository<ProductCategory, int> categoriesRepository => _categoriesRepository.Value;
-        public IGenericRepository<Product, int> productsRepository => _productsRepository.Value;
 
-        public Task<int> CompleteAsync()
-        => _dbContext.SaveChangesAsync();
+        public async Task<int> CompleteAsync()
+        => await dbContext.SaveChangesAsync();
 
-        public ValueTask DisposeAsync()
-        => _dbContext.DisposeAsync();
+        public async ValueTask DisposeAsync()
+        => await dbContext.DisposeAsync();
+
     }
 }
