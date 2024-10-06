@@ -13,7 +13,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
         
 
         public async Task<TEntity?> GetAsync(TKey id)
-           =>  await _dbcontext.Set<TEntity>().FindAsync(id);
+           => await _dbcontext.Set<TEntity>().FindAsync(id);
 
 
         public async  Task AddAsync(TEntity entity)
