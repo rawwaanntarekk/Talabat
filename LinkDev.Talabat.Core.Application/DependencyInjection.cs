@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Core.Application.Mapping;
+﻿using LinkDev.Talabat.Core.Application.Abstraction.Services;
+using LinkDev.Talabat.Core.Application.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinkDev.Talabat.Core.Application
@@ -9,6 +10,8 @@ namespace LinkDev.Talabat.Core.Application
 		{
 
 			services.AddAutoMapper(typeof(MappingProfile));
+
+			services.AddScoped(typeof(IProductService), typeof(ProductService));
 
 
 			return services;
