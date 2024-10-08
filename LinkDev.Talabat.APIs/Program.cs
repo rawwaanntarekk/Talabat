@@ -1,4 +1,6 @@
 using LinkDev.Talabat.APIs.Extensions;
+using LinkDev.Talabat.APIs.Services;
+using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
 namespace LinkDev.Talabat.APIs
 {
@@ -17,6 +19,9 @@ namespace LinkDev.Talabat.APIs
                                            AddSwaggerGen();
 
             webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddHttpContextAccessor(); // Register IHttpContextAccessor in the DI Container
+            webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register ILoggedInUserService in the DI Container
 
            
             #endregion

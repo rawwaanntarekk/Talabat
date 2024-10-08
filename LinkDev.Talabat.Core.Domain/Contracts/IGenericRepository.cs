@@ -1,7 +1,7 @@
 ﻿namespace LinkDev.Talabat.Core.Domain.Contracts
 {
     public interface IGenericRepository<TEntity, TKey>
-                     where TEntity: BaseAuditEntity<TKey>
+                     where TEntity: BaseEntity<TKey>
                      where TKey : IEquatable<TKey>
     {
         Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false);
