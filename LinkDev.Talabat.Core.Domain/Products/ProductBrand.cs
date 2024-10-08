@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Domain.Products
 {
-    public class ProductBrand : BaseEntity<int>
+    public class ProductBrand : BaseAuditEntity<int>
     {
         public required string Name { get; set; }
     }

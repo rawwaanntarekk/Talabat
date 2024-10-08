@@ -4,7 +4,7 @@ using LinkDev.Talabat.Core.Domain.Contracts;
 namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 {
     internal class GenericRepository<TEntity, TKey>(StoreContext _dbcontext) : IGenericRepository<TEntity, TKey>
-                     where TEntity : BaseEntity<TKey>
+                     where TEntity : BaseAuditEntity<TKey>
                      where TKey : IEquatable<TKey>
     {
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false)

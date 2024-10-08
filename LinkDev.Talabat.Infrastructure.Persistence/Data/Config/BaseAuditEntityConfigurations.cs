@@ -1,21 +1,16 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
+using LinkDev.Talabat.Infrastructure.Persistence.Data.Config.Products;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Config
 {
-    public class BaseEntityConfigurations<TEntity, Tkey> : IEntityTypeConfiguration<TEntity>
-             where TEntity : BaseEntity<Tkey>   where Tkey : IEquatable<Tkey>
+	public class BaseAuditEntityConfigurations<TEntity, Tkey> : BaseEntityConfigurations<TEntity, Tkey> , IEntityTypeConfiguration<TEntity>
+             where TEntity : BaseAuditEntity<Tkey>   where Tkey : IEquatable<Tkey>
     {
 
-        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
+        public override void Configure(EntityTypeBuilder<TEntity> builder)
         {
-            builder.Property(e => e.Id)
-                   .ValueGeneratedOnAdd();
+            base.Configure(builder);
 
             builder.Property(e => e.CreatedOn)
                     .IsRequired();
