@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Config
 {
-	public class BaseAuditEntityConfigurations<TEntity, Tkey> : BaseEntityConfigurations<TEntity, Tkey> , IEntityTypeConfiguration<TEntity>
+	public class BaseAuditEntityConfigurations<TEntity, Tkey> : BaseEntityConfigurations<TEntity, Tkey> 
              where TEntity : BaseAuditEntity<Tkey>   where Tkey : IEquatable<Tkey>
     {
 
