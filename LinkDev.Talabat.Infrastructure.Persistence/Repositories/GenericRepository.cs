@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Core.Domain.Products;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 {
@@ -7,9 +8,17 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
                      where TEntity : BaseEntity<TKey>
                      where TKey : IEquatable<TKey>
     {
-        public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false)
-        => withTracking ? await _dbcontext.Set<TEntity>().ToListAsync()
-                        : await _dbcontext.Set<TEntity>().AsNoTracking().ToListAsync();
+        // This implementation violates the Open/Closed Principle 
+        public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false) {
+            if (typeof(TEntity) == typeof(Product))
+                return withTracking? 
+                       (IEnumerable<TEntity>) await _dbcontext.Products.Include(p => p.Brand).Include(p => p.Category).ToListAsync() :
+                       (IEnumerable<TEntity>) await _dbcontext.Products.AsNoTracking().Include(p => p.Brand).Include(p => p.Category).ToListAsync();
+
+           return withTracking?
+              await _dbcontext.Set<TEntity>().ToListAsync()
+            : await _dbcontext.Set<TEntity>().AsNoTracking().ToListAsync();
+        }
         
 
         public async Task<TEntity?> GetAsync(TKey id)
