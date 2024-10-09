@@ -22,7 +22,13 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
         
 
         public async Task<TEntity?> GetAsync(TKey id)
-           => await _dbcontext.Set<TEntity>().FindAsync(id);
+        {
+			if (typeof(TEntity) == typeof(Product))
+                return  await _dbcontext.Products.Where(p => p.Id.Equals(id)).Include(p => p.Brand).Include(p => p.Category).FirstOrDefaultAsync() as TEntity;
+
+           return await _dbcontext.Set<TEntity>().FindAsync(id);
+
+		}
 
 
         public async  Task AddAsync(TEntity entity)
