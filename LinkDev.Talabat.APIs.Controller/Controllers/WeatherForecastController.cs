@@ -1,5 +1,6 @@
 using LinkDev.Talabat.APIs.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace LinkDev.Talabat.APIs.Controllers
 {

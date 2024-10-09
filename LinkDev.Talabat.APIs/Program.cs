@@ -2,6 +2,7 @@ using LinkDev.Talabat.APIs.Extensions;
 using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Core.Application;
 namespace LinkDev.Talabat.APIs
 {
 	public class Program
@@ -26,6 +27,7 @@ namespace LinkDev.Talabat.APIs
             webApplicationBuilder.Services.AddHttpContextAccessor(); // Register IHttpContextAccessor in the DI Container
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register ILoggedInUserService in the DI Container
 
+            webApplicationBuilder.Services.AddApplicationServices(); // Register Application Services in the DI Container
            
             #endregion
 
