@@ -1,5 +1,4 @@
-﻿using LinkDev.Talabat.Core.Domain.Products;
-
+﻿
 namespace LinkDev.Talabat.Core.Domain.Contracts.Persistence
 {
     public interface IUnitOfWork : IAsyncDisposable

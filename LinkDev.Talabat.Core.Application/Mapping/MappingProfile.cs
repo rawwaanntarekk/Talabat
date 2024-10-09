@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Employees;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
+using LinkDev.Talabat.Core.Domain.Employees;
 using LinkDev.Talabat.Core.Domain.Products;
 
 namespace LinkDev.Talabat.Core.Application.Mapping
@@ -15,6 +17,9 @@ namespace LinkDev.Talabat.Core.Application.Mapping
             CreateMap<ProductBrand, BrandsDTO>();
 
             CreateMap<ProductCategory, CategoryDTO>();
+
+            CreateMap<Employee , EmployeeToReturnDTO>()
+                  .ForMember(dest => dest.Department, src => src.MapFrom(employee => employee.Department!.Name));
         }
 
     }
