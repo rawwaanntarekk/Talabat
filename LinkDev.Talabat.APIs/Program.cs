@@ -4,7 +4,7 @@ using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
 namespace LinkDev.Talabat.APIs
 {
-    public class Program
+	public class Program
     {
         public static async Task Main(string[] args)
         {
@@ -13,8 +13,11 @@ namespace LinkDev.Talabat.APIs
             #region Configure Services
             // Add services to the container.
 
-            webApplicationBuilder.Services.AddControllers(); // Register Required Services for Controllers in the DI Container
+            webApplicationBuilder.Services.AddControllers()
+                                          .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
+            // Register Required Services for Controllers in the DI Container
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             webApplicationBuilder.Services.AddEndpointsApiExplorer().
                                            AddSwaggerGen();
 
