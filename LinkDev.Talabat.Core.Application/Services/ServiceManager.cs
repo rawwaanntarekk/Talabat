@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
-using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 
 namespace LinkDev.Talabat.Core.Application.Services
 {
-	internal class ServiceManager : IServiceManager
+    internal class ServiceManager : IServiceManager
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;

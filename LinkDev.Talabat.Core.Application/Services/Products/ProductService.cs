@@ -1,23 +1,26 @@
 ﻿using AutoMapper;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
-using LinkDev.Talabat.Core.Domain.Contracts;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
+using LinkDev.Talabat.Core.Domain.Contracts.Specifications;
 using LinkDev.Talabat.Core.Domain.Products;
 
-namespace LinkDev.Talabat.Core.Application
+namespace LinkDev.Talabat.Core.Application.Services.Products
 {
     internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
         public async Task<IEnumerable<ProductToReturnDTO>> GetProductsAsync()
         {
-            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync();
+            var specification = new ProductWithBrandAndCategorySpecifications();
+
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsyncWithSpec(specification);
 
             var productsToReturn = mapper.Map<IEnumerable<ProductToReturnDTO>>(products);
             return productsToReturn;
         }
 
 
-		public async Task<ProductToReturnDTO> GetProductAsync(int id)
+        public async Task<ProductToReturnDTO> GetProductAsync(int id)
         {
             var product = await unitOfWork.GetRepository<Product, int>().GetAsync(id);
 
