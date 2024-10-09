@@ -1,9 +1,4 @@
 ﻿using LinkDev.Talabat.Core.Domain.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications
 {
@@ -11,17 +6,23 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications
 	{
 		// The Object Created Via this Constructor will be used to get All Products With Its Brand and Category
         public ProductWithBrandAndCategorySpecifications() : base()
-        {
-            Includes.Add(p => p.Brand!);
-            Includes.Add(p => p.Category!);
-        }
+		{
+			AddIncludes();
+		}
 
-        public ProductWithBrandAndCategorySpecifications(int id) : base(id)
+
+		// The Object Created Via this Constructor will be used to get a Specific Product With Its Brand and Category
+
+		public ProductWithBrandAndCategorySpecifications(int id) : base(id)
+		{
+			AddIncludes();
+		}
+
+		private void AddIncludes()
 		{
 			Includes.Add(p => p.Brand!);
 			Includes.Add(p => p.Category!);
 		}
-
     }
 	
 }

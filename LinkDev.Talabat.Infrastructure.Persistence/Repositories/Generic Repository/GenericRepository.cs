@@ -23,6 +23,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 		}
 		public async  Task<IEnumerable<TEntity>> GetAllAsyncWithSpec(ISpecifications<TEntity, TKey> specification, bool withTracking = false)
 		{
+            
 			return await ApplySpecification(specification).ToListAsync();
 		}
 
