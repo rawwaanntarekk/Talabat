@@ -30,7 +30,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         }
 
 
-        public async Task<IEnumerable<BrandsDTO>> GetBrandsSync()
+        public async Task<IEnumerable<BrandsDTO>> GetBrandsAsync()
         {
             var brands = await unitOfWork.GetRepository<ProductBrand, int>().GetAllAsync();
 
@@ -39,7 +39,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
             return brandsToReturn;
         }
 
-        public async Task<IEnumerable<CategoryDTO>> GetCategoriesSync()
+        public async Task<IEnumerable<CategoryDTO>> GetCategoriesAsync()
         {
             var categories = await unitOfWork.GetRepository<ProductCategory, int>().GetAllAsync();
 

@@ -25,6 +25,20 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
 			return Ok(product);
 		}
 
+		[HttpGet("brands")] // GET /api/products/brands
+		public async Task<ActionResult<IEnumerable<BrandsDTO>>> GetBrands()
+		{
+			var brands = await serviceManager.ProductService.GetBrandsAsync();
+			return Ok(brands);
+		}
+
+		[HttpGet("categories")] // GET /api/products/categories
+		public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategories()
+		{
+			var categories = await serviceManager.ProductService.GetCategoriesAsync();
+			return Ok(categories);
+		}
+
 
 	}
 }

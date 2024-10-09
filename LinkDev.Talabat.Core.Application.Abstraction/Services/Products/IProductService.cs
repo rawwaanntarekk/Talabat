@@ -6,7 +6,7 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services
 	{
 		Task<IEnumerable<ProductToReturnDTO>> GetProductsAsync();
 		Task<ProductToReturnDTO> GetProductAsync(int id);
-		Task<IEnumerable<BrandsDTO>> GetBrandsSync();
-		Task<IEnumerable<CategoryDTO>> GetCategoriesSync();
+		Task<IEnumerable<BrandsDTO>> GetBrandsAsync();
+		Task<IEnumerable<CategoryDTO>> GetCategoriesAsync();
 	}
 }
