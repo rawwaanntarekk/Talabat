@@ -4,13 +4,13 @@ using LinkDev.Talabat.Core.Application.Abstraction.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
-{
+{ 
 	public class ProductsController(IServiceManager serviceManager) : BaseAPIController
 	{
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<ProductToReturnDTO>>> GetProducts(string? sort)
+		public async Task<ActionResult<IEnumerable<ProductToReturnDTO>>> GetProducts(string? sort, int? brandId, int? categoryId)
 		{
-			var products = await serviceManager.ProductService.GetProductsAsync(sort);
+			var products = await serviceManager.ProductService.GetProductsAsync(sort, brandId, categoryId);
 			return Ok(products);
 		}
 

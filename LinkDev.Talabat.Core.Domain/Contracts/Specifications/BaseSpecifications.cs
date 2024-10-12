@@ -13,10 +13,12 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications
         public Expression<Func<TEntity, object>>? OrderBy { get; set; }
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set; }
 
-        public BaseSpecifications()
+        public BaseSpecifications(Expression<Func<TEntity, bool>> criteriaExpression)
         {
-            Includes = [];
-        }
+			Criteria = criteriaExpression;
+
+			Includes = [];
+		}
 
 		public BaseSpecifications(TKey id)
 		{
