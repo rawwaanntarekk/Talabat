@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using LinkDev.Talabat.Core.Application.Abstraction.Services;
-using LinkDev.Talabat.Core.Application.Abstraction.Services.Employees;
 using LinkDev.Talabat.Core.Application.Services.Products;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 

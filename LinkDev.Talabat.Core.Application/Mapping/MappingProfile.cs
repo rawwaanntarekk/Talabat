@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using LinkDev.Talabat.Core.Application.Abstraction.Models.Employees;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
 using LinkDev.Talabat.Core.Domain.Products;
 

@@ -7,11 +7,11 @@ using LinkDev.Talabat.Core.Domain.Products;
 
 namespace LinkDev.Talabat.Core.Application.Services.Products
 {
-    internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
+	internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
-        public async Task<IEnumerable<ProductToReturnDTO>> GetProductsAsync(string? sort, int? brandId, int? categoryId)
+        public async Task<IEnumerable<ProductToReturnDTO>> GetProductsAsync(ProductSpecParams specParams)
         {
-            var specification = new ProductWithBrandAndCategorySpecifications(sort, brandId, categoryId);
+            var specification = new ProductWithBrandAndCategorySpecifications(specParams.Sort, specParams.BrandId, specParams.CategoryId, specParams.PageSize, specParams.PageIndex);
 
             var products = await unitOfWork.GetRepository<Product, int>().GetAllAsyncWithSpec(specification);
 
@@ -48,5 +48,6 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
             return categoriesToReturn;
         }
 
-    }
+		
+	}
 }
