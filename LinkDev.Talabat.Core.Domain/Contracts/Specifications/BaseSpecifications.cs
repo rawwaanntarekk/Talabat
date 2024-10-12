@@ -10,7 +10,10 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications
 
 		public List<Expression<Func<TEntity, object>>> Includes { get; set; }
 
-		public BaseSpecifications()
+        public Expression<Func<TEntity, object>>? OrderBy { get; set; }
+        public Expression<Func<TEntity, object>>? OrderByDesc { get; set; }
+
+        public BaseSpecifications()
         {
             Includes = [];
         }
@@ -19,6 +22,16 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications
 		{
 			Criteria = e => e.Id.Equals(id);
 			Includes = [];
+		}
+
+		private protected void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression)
+		{
+			OrderBy = orderByExpression;
+		}
+		
+		private protected void AddOrderByDesc(Expression<Func<TEntity, object>> orderByDescExpression)
+		{
+			OrderByDesc = orderByDescExpression;
 		}
     }
 }

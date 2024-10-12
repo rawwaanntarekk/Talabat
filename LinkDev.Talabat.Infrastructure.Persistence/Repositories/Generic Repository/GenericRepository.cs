@@ -17,14 +17,14 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
             : await _dbcontext.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
+		public async  Task<IEnumerable<TEntity>> GetAllAsyncWithSpec(ISpecifications<TEntity, TKey> specification, bool withTracking = false)
+		{
+			return await ApplySpecification(specification).ToListAsync();
+		}
+
         public async Task<TEntity?> GetAsync(TKey id)
         {
            return await _dbcontext.Set<TEntity>().FindAsync(id);
-		}
-		public async  Task<IEnumerable<TEntity>> GetAllAsyncWithSpec(ISpecifications<TEntity, TKey> specification, bool withTracking = false)
-		{
-            
-			return await ApplySpecification(specification).ToListAsync();
 		}
 
 		public async Task<TEntity?> GetAsyncWithSpec(ISpecifications<TEntity, TKey> specification)
