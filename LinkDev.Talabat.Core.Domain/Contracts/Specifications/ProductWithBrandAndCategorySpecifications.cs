@@ -5,11 +5,13 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications
 	public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Product, int>
 	{
 		// The Object Created Via this Constructor will be used to get All Products With Its Brand and Category
-        public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId, int pageSize, int pageIndex) 
-			   
+		public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId, int pageSize, int pageIndex, string? search)
+
 			: base(
 
 					 P =>
+					 (string.IsNullOrEmpty(search) || P.NormalizedName.Contains(search))
+					  &&
 					 ((!brandId.HasValue) || (brandId == P.BrandId))
 					  &&
 					 (!categoryId.HasValue || (categoryId == P.CategoryId))
