@@ -21,7 +21,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
             var countSpecification = new ProductWithFilterationForCountSpecifications(specParams.BrandId, specParams.CategoryId);
 
 
-            var count = await unitOfWork.GetRepository<Product, int>().GetCountAsync(specification);
+            var count = await unitOfWork.GetRepository<Product, int>().GetCountAsync(countSpecification);
             
             return new Pagination<ProductToReturnDTO>(specParams.PageIndex, specParams.PageSize, data, count);
         }
