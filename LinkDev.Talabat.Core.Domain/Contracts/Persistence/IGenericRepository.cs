@@ -10,6 +10,7 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Persistence
         Task<IEnumerable<TEntity>> GetAllAsyncWithSpec(ISpecifications<TEntity , TKey> specification, bool withTracking = false);
         Task<TEntity?> GetAsync(TKey id);
         Task<TEntity?> GetAsyncWithSpec(ISpecifications<TEntity , TKey> specification);
+        Task<int> GetCountAsync(ISpecifications<TEntity , TKey> specification);
         Task AddAsync(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
