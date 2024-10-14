@@ -17,14 +17,14 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
             : await _dbcontext.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
+		public async  Task<IEnumerable<TEntity>> GetAllAsyncWithSpec(ISpecifications<TEntity, TKey> specification, bool withTracking = false)
+		{
+			return await ApplySpecification(specification).ToListAsync();
+		}
+
         public async Task<TEntity?> GetAsync(TKey id)
         {
            return await _dbcontext.Set<TEntity>().FindAsync(id);
-		}
-		public async  Task<IEnumerable<TEntity>> GetAllAsyncWithSpec(ISpecifications<TEntity, TKey> specification, bool withTracking = false)
-		{
-            
-			return await ApplySpecification(specification).ToListAsync();
 		}
 
 		public async Task<TEntity?> GetAsyncWithSpec(ISpecifications<TEntity, TKey> specification)
@@ -32,6 +32,10 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 		    return await ApplySpecification(specification).FirstOrDefaultAsync();
 		}
  
+        public async Task<int> GetCountAsync(ISpecifications<TEntity, TKey> specification)
+		{
+			return await ApplySpecification(specification).CountAsync();
+		}
         public async  Task AddAsync(TEntity entity)
         => await _dbcontext.Set<TEntity>().AddAsync(entity);
 
