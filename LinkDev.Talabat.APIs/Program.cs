@@ -3,6 +3,7 @@ using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Core.Application;
+using Microsoft.AspNetCore.Builder;
 namespace LinkDev.Talabat.APIs
 {
 	public class Program
@@ -49,6 +50,7 @@ namespace LinkDev.Talabat.APIs
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseStaticFiles();
