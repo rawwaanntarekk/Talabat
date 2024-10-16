@@ -5,6 +5,7 @@ using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrasturcture;
 using Microsoft.AspNetCore.Mvc;
 namespace LinkDev.Talabat.APIs
 {
@@ -50,7 +51,9 @@ namespace LinkDev.Talabat.APIs
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register ILoggedInUserService in the DI Container
 
             webApplicationBuilder.Services.AddApplicationServices(); // Register Application Services in the DI Container
-           
+
+            webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
+
             #endregion
 
             var app = webApplicationBuilder.Build();
