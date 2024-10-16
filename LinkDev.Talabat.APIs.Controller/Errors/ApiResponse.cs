@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace LinkDev.Talabat.APIs.Controllers.Errors
 {
@@ -28,5 +24,8 @@ namespace LinkDev.Talabat.APIs.Controllers.Errors
               _ => null
           };
         }
+
+        public override string ToString() => JsonSerializer.Serialize(this, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+        
     }
 }

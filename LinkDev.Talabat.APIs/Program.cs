@@ -1,14 +1,14 @@
+using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.APIs.Extensions;
+using LinkDev.Talabat.APIs.Middlewares;
 using LinkDev.Talabat.APIs.Services;
+using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
-using LinkDev.Talabat.Core.Application;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
-using LinkDev.Talabat.APIs.Controllers.Errors;
 namespace LinkDev.Talabat.APIs
 {
-	public class Program
+    public class Program
     {
         public static async Task Main(string[] args)
         {
@@ -60,6 +60,9 @@ namespace LinkDev.Talabat.APIs
 
             #region Configure Kestrel Middlewares
             // Configure the HTTP request pipeline.
+
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
