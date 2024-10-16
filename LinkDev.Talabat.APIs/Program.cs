@@ -4,6 +4,8 @@ using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Core.Application;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
+using LinkDev.Talabat.APIs.Controllers.Errors;
 namespace LinkDev.Talabat.APIs
 {
 	public class Program
@@ -16,7 +18,23 @@ namespace LinkDev.Talabat.APIs
             // Add services to the container.
 
             webApplicationBuilder.Services.AddControllers()
-                                          .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
+                                          .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly)
+                                          .ConfigureApiBehaviorOptions(options =>
+                                          {
+                                              options.SuppressModelStateInvalidFilter = false;
+                                              options.InvalidModelStateResponseFactory = (actionContext) =>
+                                              {
+                                                  var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
+                                                                         .SelectMany(P => P.Value!.Errors)
+                                                                         .Select(E => E.ErrorMessage);
+
+                                                  return new BadRequestObjectResult(new ApiValidationErrorResponse()
+                                                  {
+                                                      Errors = errors
+                                                  });
+                                              };
+
+                                          });
             // Register Required Services for Controllers in the DI Container
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
