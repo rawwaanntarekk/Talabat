@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LinkDev.Talabat.Core.Application.Common.Exceptions
+﻿namespace LinkDev.Talabat.Core.Application.Common.Exceptions
 {
     public class NotFoundException : ApplicationException
     {
-        public NotFoundException()
-            :base("Not Found")
+        public NotFoundException(string name, object key)
+            :base($"{name} with {key} is not found")
         {
             
         }

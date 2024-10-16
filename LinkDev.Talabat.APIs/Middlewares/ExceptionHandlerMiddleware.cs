@@ -1,17 +1,17 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Errors;
-using LinkDev.Talabat.APIs.Controllers.Exceptions;
+using LinkDev.Talabat.Core.Application.Common.Exceptions;
 using System.Net;
 
 namespace LinkDev.Talabat.APIs.Middlewares
 {
     // Convension-Based
-    public class CustomExceptionHandlerMiddleware
+    public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<CustomExceptionHandlerMiddleware> _logger;
+        private readonly ILogger<ExceptionHandlerMiddleware> _logger;
         private readonly IWebHostEnvironment _env;
 
-        public CustomExceptionHandlerMiddleware(RequestDelegate next, ILogger<CustomExceptionHandlerMiddleware> logger , IWebHostEnvironment env)
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger, IWebHostEnvironment env)
         {
             _next = next;
             _logger = logger;
@@ -24,56 +24,64 @@ namespace LinkDev.Talabat.APIs.Middlewares
             {
                 // Logic Executed With the Request
                 await _next(httpContext);
-
-                //if(httpContext.Response.StatusCode == (int) HttpStatusCode.NotFound)
-                //{
-                //    var response = new ApiResponse((int)HttpStatusCode.NotFound, $"The requested endpoint: {httpContext.Request.Path} is not found");
-                //    await httpContext.Response.WriteAsync(response.ToString());
-                //}
-
-                // Logic Executed With the Response
             }
             catch (Exception ex)
             {
-                        ApiResponse response;
-                switch (ex)
+                await HandleExceptionAsync(httpContext, ex);
+
+                if (_env.IsDevelopment())
                 {
-                    case NotFoundException:
-
-                        httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                        httpContext.Response.ContentType = "application/json";
-                        response = new ApiResponse((int)HttpStatusCode.NotFound, ex.Message);
-                        await httpContext.Response.WriteAsync(response.ToString());
-                        break;
-
-                    default:
-
-                        if (_env.IsDevelopment())
-                        {
-                            // Developement Mode
-                            _logger.LogError(ex, ex.Message);
-                            response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace!.ToString());
-
-                        }
-                        else
-                        {
-
-                            // Production Mode
-                            // Log Exception Details in Database | File (Text, Json)
-
-                            response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError);
-
-                        }
-
-                        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        httpContext.Response.ContentType = "application/json";
-
-                        await httpContext.Response.WriteAsync(response.ToString());
-                    break;
+                    // Developement Mode
+                    _logger.LogError(ex, ex.Message);
 
                 }
-               
-                
+                else
+                {
+
+                    // Production Mode
+                    // Log Exception Details in Database | File (Text, Json)
+
+
+                }
+
+            }
+        }
+
+        private async Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
+        {
+            ApiResponse response;
+            switch (ex)
+            {
+                case NotFoundException:
+
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    httpContext.Response.ContentType = "application/json";
+                    response = new ApiResponse(404, ex.Message);
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
+
+                case BadRequestException:
+
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    httpContext.Response.ContentType = "application/json";
+
+                    response = new ApiResponse(400, ex.Message);
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
+
+                default:
+
+                    response = _env.IsDevelopment()? new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace!.ToString())
+                        : new ApiExceptionResponse((int)HttpStatusCode.InternalServerError);
+
+                    
+
+                    httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+                    httpContext.Response.ContentType = "application/json";
+
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
+
             }
         }
     }
