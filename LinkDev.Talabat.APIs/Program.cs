@@ -28,7 +28,7 @@ namespace LinkDev.Talabat.APIs
                                                                                        .Select(P => new ApiValidationErrorResponse.ValidationError()
                                                                                        {
                                                                                            Field = P.Key,
-                                                                                           Errors = P.Value.Errors.Select(e => e.ErrorMessage)
+                                                                                           Errors = P.Value!.Errors.Select(e => e.ErrorMessage)
                                                                                        });
 
                                                   return new BadRequestObjectResult(new ApiValidationErrorResponse()
