@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
+using LinkDev.Talabat.Core.Domain.Basket;
 using LinkDev.Talabat.Core.Domain.Products;
 
 namespace LinkDev.Talabat.Core.Application.Mapping
@@ -16,6 +18,9 @@ namespace LinkDev.Talabat.Core.Application.Mapping
             CreateMap<ProductBrand, BrandsDTO>();
 
             CreateMap<ProductCategory, CategoryDTO>();
+            CreateMap<CustomerBasket, CustomerBasketDTO>().ReverseMap();
+
+            CreateMap<BasketItem, BasketItemDTO>().ReverseMap();
 
         }
 
