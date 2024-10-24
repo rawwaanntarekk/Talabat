@@ -4,7 +4,7 @@ namespace LinkDev.Talabat.APIs.Extensions
 {
     public static class InitializerExtensions
     {
-        public static async Task<WebApplication> InitializeStoreContextAsync(this WebApplication app)
+        public static async Task<WebApplication> InitializeDbAsync(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;

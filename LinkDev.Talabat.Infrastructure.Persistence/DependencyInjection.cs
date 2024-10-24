@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
+using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence._Identity;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using LinkDev.Talabat.Infrastructure.Persistence.Interceptors;
@@ -36,7 +37,6 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
                 });
 
             services.AddScoped(typeof(IStoreIdentityDbInitializer), typeof(StoreIdentityDbInitialzer));
-
 
 
             #endregion
