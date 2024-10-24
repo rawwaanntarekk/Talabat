@@ -21,7 +21,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
                       .UseSqlServer(configuration.GetConnectionString("StoreContext"));
                   });
 
-            services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreDbInitializer));
+            services.AddScoped(typeof(IStoreDbInitializer), typeof(StoreDbInitializer));
 
             services.AddScoped(typeof(SaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
             #endregion
@@ -35,9 +35,15 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
                     .UseSqlServer(configuration.GetConnectionString("IdentityContext"));
                 });
 
+            services.AddScoped(typeof(IStoreIdentityDbInitializer), typeof(StoreIdentityDbInitialzer));
+
+
+
             #endregion
 
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
+
+
             return services;
         }
     }

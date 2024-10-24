@@ -9,7 +9,8 @@ namespace LinkDev.Talabat.APIs.Extensions
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
 
-            var storeContextInitializer = services.GetRequiredService<IStoreContextInitializer>();
+            var storeContextInitializer = services.GetRequiredService<IStoreDbInitializer>();
+            var storeIdentityContextInitializer = services.GetRequiredService<IStoreIdentityDbInitializer>();
             // Ask Rutime for an object of type StoreContext  "Explicitly"
 
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
@@ -18,6 +19,10 @@ namespace LinkDev.Talabat.APIs.Extensions
             {
                 await storeContextInitializer.InitializeAsync();
                 await storeContextInitializer.SeedAsync();
+
+
+                await storeIdentityContextInitializer.InitializeAsync();
+                await storeIdentityContextInitializer.SeedAsync();
 
             }
             catch (Exception ex)
