@@ -20,7 +20,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
                     PhoneNumber = "01154155524"
                 };
 
-                await _userManager.CreateAsync(user, "P@ssw@rd");
+                await _userManager.CreateAsync(user, "P@ssw0rd");
 
                 await _dbContext.Users.AddAsync(user);
                 await _dbContext.SaveChangesAsync();
