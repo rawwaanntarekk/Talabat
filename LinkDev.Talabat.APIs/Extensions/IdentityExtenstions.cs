@@ -1,6 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence._Identity;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 
 namespace LinkDev.Talabat.APIs.Extensions
@@ -17,12 +16,12 @@ namespace LinkDev.Talabat.APIs.Extensions
                 identityOptions.SignIn.RequireConfirmedEmail = true;
 
 
-                identityOptions.Password.RequireNonAlphanumeric = true;
-                identityOptions.Password.RequiredUniqueChars = 2;
-                identityOptions.Password.RequiredLength = 6;
-                identityOptions.Password.RequireDigit = true;
-                identityOptions.Password.RequireLowercase = true;
-                identityOptions.Password.RequireUppercase = true;
+                //identityOptions.Password.RequireNonAlphanumeric = true;
+                //identityOptions.Password.RequiredUniqueChars = 2;
+                //identityOptions.Password.RequiredLength = 6;
+                //identityOptions.Password.RequireDigit = true;
+                //identityOptions.Password.RequireLowercase = true;
+                //identityOptions.Password.RequireUppercase = true;
 
 
                 identityOptions.Lockout.AllowedForNewUsers = true;
