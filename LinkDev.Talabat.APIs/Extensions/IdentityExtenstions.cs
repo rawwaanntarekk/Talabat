@@ -2,7 +2,10 @@
 using LinkDev.Talabat.Core.Application.Auth;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence._Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace LinkDev.Talabat.APIs.Extensions
 {
@@ -43,6 +46,42 @@ namespace LinkDev.Talabat.APIs.Extensions
                 return () => servicePovidor.GetRequiredService<IAuthService>();
             });
 
+            services.AddAuthentication((authenticationOptions) =>
+            {
+                authenticationOptions.DefaultAuthenticateScheme = "MySchema";
+            }).AddJwtBearer("MySchema", (configurationsOptions) =>
+            {
+                configurationsOptions.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+
+                    ClockSkew = TimeSpan.FromMinutes(10),
+                    ValidIssuer = _configuration.GetSection("jwtSettings")["Issuer"],
+                    ValidAudience = _configuration.GetSection("jwtSettings")["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("jwtSettings")["Key"]!))
+
+
+
+                };
+
+                configurationsOptions.Events = new JwtBearerEvents()
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var authorizationHeader = context.Request.Headers["Authorization"].ToString();
+
+                        if (authorizationHeader.StartsWith("MySchema", StringComparison.OrdinalIgnoreCase))
+                            context.Token = authorizationHeader.Substring("MySchema".Length).Trim();
+
+                        return Task.CompletedTask;
+                    }
+                };
+
+            });
+            
             return services;
 
         }
