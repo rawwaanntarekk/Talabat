@@ -3,6 +3,9 @@ using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
 using LinkDev.Talabat.Core.Application.Common.Exceptions;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,8 +13,11 @@ using System.Text;
 
 namespace LinkDev.Talabat.Core.Application.Auth
 {
-    public class AuthService(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager) : IAuthService
+    public class AuthService(UserManager<ApplicationUser> _userManager,
+                             SignInManager<ApplicationUser> _signInManager,
+                             IOptions<JwtSettings> _jwtSettings) : IAuthService
     {
+        private readonly JwtSettings _jwtSettings = _jwtSettings.Value;
         public async Task<UserDTO> LoginAsync(LoginDTO model)
         {
            var user = await _userManager.FindByEmailAsync(model.Email);
@@ -101,14 +107,14 @@ namespace LinkDev.Talabat.Core.Application.Auth
              .Union(userClaims)
              .Union(rolesAsClaims);
 
-            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("This is 256 bytes used for secure my token."));
+            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
             var signInCredentails = new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256);
 
 
             var tokenObj = new JwtSecurityToken(
-                issuer: "TalabatIdentity",
-                audience: "TalabatUsers",
-                expires: DateTime.UtcNow.AddMinutes(10),
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 claims: Claims,
                 signingCredentials: signInCredentails
              );

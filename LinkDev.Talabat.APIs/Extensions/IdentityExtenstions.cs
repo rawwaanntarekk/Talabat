@@ -8,8 +8,9 @@ namespace LinkDev.Talabat.APIs.Extensions
 {
     public  static class IdentityExtenstions
     {
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services)
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration _configuration)
         {
+            services.Configure<JwtSettings>(_configuration.GetSection("jwtSettings"));
             services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
             {
                 identityOptions.User.RequireUniqueEmail = true;

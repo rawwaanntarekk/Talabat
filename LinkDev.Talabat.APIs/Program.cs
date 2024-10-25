@@ -4,14 +4,9 @@ using LinkDev.Talabat.APIs.Middlewares;
 using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
-using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence;
-using LinkDev.Talabat.Infrastructure.Persistence._Identity;
 using LinkDev.Talabat.Infrasturcture;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -56,7 +51,7 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
-            webApplicationBuilder.Services.AddIdentityServices();
+            webApplicationBuilder.Services.AddIdentityServices(webApplicationBuilder.Configuration);
            
             #endregion
 
