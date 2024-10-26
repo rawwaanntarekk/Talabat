@@ -1,6 +1,7 @@
 ﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Products;
 using Microsoft.AspNetCore.Mvc;
+using Talabat.Dashboard.Models;
 
 namespace Talabat.Dashboard.Controllers
 {
@@ -12,19 +13,25 @@ namespace Talabat.Dashboard.Controllers
             return View(brands);
         }
 
-        public async Task<IActionResult> Create(ProductBrand brand)
+        public async Task<IActionResult> Create(ProductBrandViewModel model)
         {
-            try
-            {
-                await _unitOfWork.GetRepository<ProductBrand, int>().AddAsync(brand);
-                await _unitOfWork.CompleteAsync();
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("Name", "please enter brand name");
+            if (!ModelState.IsValid) {
                 return View("Index", await _unitOfWork.GetRepository<ProductBrand, int>().GetAllAsync());
+
             }
+
+            var brand = new ProductBrand
+            {
+                Id = 0,
+                Name = model.Name,
+                CreatedBy = "Rawan",
+                LastModifiedBy = "Rawan"
+            };
+
+            await _unitOfWork.GetRepository<ProductBrand, int>().AddAsync(brand);
+            await _unitOfWork.CompleteAsync();
+
+            return RedirectToAction("Index");
         }
 
 
