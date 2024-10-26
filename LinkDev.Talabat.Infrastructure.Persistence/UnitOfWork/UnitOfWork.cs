@@ -1,11 +1,13 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Collections.Concurrent;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 {
-    internal class UnitOfWork(StoreContext dbContext) : IUnitOfWork
+    internal class UnitOfWork(StoreDbContext dbContext,
+                              SaveChangesInterceptor _interceptor  ) : IUnitOfWork
     {
         private readonly ConcurrentDictionary<string, object> _repositories = new();
 
@@ -18,7 +20,10 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 
 
         public async Task<int> CompleteAsync()
-        => await dbContext.SaveChangesAsync();
+        {
+            return await dbContext.SaveChangesAsync();
+
+        }
 
         public async ValueTask DisposeAsync()
         => await dbContext.DisposeAsync();

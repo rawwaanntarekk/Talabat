@@ -1,0 +1,16 @@
+﻿@model ProductViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add new product</h1>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <input asp-for="PictureURL" hidden />
+    <partial name="CreateEditPartialView"  model="Model"/>
+    <br />
+    <br />
+    <input type="submit" value="Create" class="btn btn-success" />
+    <a asp-action="Index" class="btn btn-primary">Back to Index</a>
+</form>

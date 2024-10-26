@@ -5,8 +5,10 @@ using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Interceptors;
 using LinkDev.Talabat.Infrasturcture;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -26,11 +28,8 @@ namespace LinkDev.Talabat.APIs
                                               options.InvalidModelStateResponseFactory = (actionContext) =>
                                               {
                                                   var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
-                                                                                       .Select(P => new ApiValidationErrorResponse.ValidationError()
-                                                                                       {
-                                                                                           Field = P.Key,
-                                                                                           Errors = P.Value!.Errors.Select(e => e.ErrorMessage)
-                                                                                       });
+                                                                                       .SelectMany(P => P.Value!.Errors)
+                                                                                       .Select(E => E.ErrorMessage);
 
                                                   return new BadRequestObjectResult(new ApiValidationErrorResponse()
                                                   {
@@ -54,13 +53,19 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
+            webApplicationBuilder.Services.AddIdentityServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddScoped(typeof(SaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
+
+
+
             #endregion
 
             var app = webApplicationBuilder.Build();
 
             #region Databases Initialization
 
-            await app.InitializeStoreContextAsync();
+            await app.InitializeDbAsync();
 
             #endregion
 

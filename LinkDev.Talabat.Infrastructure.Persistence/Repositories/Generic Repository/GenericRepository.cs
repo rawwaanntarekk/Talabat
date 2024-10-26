@@ -5,7 +5,7 @@ using LinkDev.Talabat.Infrastructure.Persistence.Repositories.Specifications;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 {
-	internal class GenericRepository<TEntity, TKey>(StoreContext _dbcontext) : IGenericRepository<TEntity, TKey>
+	internal class GenericRepository<TEntity, TKey>(StoreDbContext _dbcontext) : IGenericRepository<TEntity, TKey>
                      where TEntity : BaseEntity<TKey>
                      where TKey : IEquatable<TKey>
     {
@@ -40,10 +40,10 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
         => await _dbcontext.Set<TEntity>().AddAsync(entity);
 
         public void Update(TEntity entity)
-        => _dbcontext.Set<TEntity>().Remove(entity);
+        => _dbcontext.Set<TEntity>().Update(entity);
 
         public void Delete(TEntity entity)
-        => _dbcontext.Set<TEntity>().Update(entity);
+        => _dbcontext.Set<TEntity>().Remove(entity);
 
         #region Helpers
 
