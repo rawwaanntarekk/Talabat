@@ -1,3 +1,4 @@
+using AutoMapper;
 using LinkDev.Talabat.APIs.Extensions;
 using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application;
@@ -5,7 +6,10 @@ using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence._Identity;
+using LinkDev.Talabat.Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Talabat.Dashboard.Helpers;
 
 namespace Talabat.Dashboard
 {
@@ -46,7 +50,7 @@ namespace Talabat.Dashboard
             })
             .AddEntityFrameworkStores<StoreIdentityDbContext>();
 
-
+            webApplicationBuilder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
             var app = webApplicationBuilder.Build();

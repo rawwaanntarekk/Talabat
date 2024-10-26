@@ -5,8 +5,10 @@ using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Interceptors;
 using LinkDev.Talabat.Infrasturcture;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -52,7 +54,11 @@ namespace LinkDev.Talabat.APIs
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddIdentityServices(webApplicationBuilder.Configuration);
-           
+
+            webApplicationBuilder.Services.AddScoped(typeof(SaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
+
+
+
             #endregion
 
             var app = webApplicationBuilder.Build();

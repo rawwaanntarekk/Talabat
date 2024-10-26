@@ -40,10 +40,10 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
         => await _dbcontext.Set<TEntity>().AddAsync(entity);
 
         public void Update(TEntity entity)
-        => _dbcontext.Set<TEntity>().Remove(entity);
+        => _dbcontext.Set<TEntity>().Update(entity);
 
         public void Delete(TEntity entity)
-        => _dbcontext.Set<TEntity>().Update(entity);
+        => _dbcontext.Set<TEntity>().Remove(entity);
 
         #region Helpers
 

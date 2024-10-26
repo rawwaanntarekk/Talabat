@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Interceptors
 {
-	internal class CustomSaveChangesInterceptor(ILoggedInUserService loggedInUserService) : SaveChangesInterceptor
+	public class CustomSaveChangesInterceptor(ILoggedInUserService loggedInUserService) : SaveChangesInterceptor
 	{
 
 		public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
@@ -30,12 +30,12 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Interceptors
 				{
 					if (entry.State == EntityState.Added)
 					{
-						entry.Entity.CreatedBy = loggedInUserService.UserId!;
+						entry.Entity.CreatedBy = loggedInUserService.UserId?? "1";
 						entry.Entity.CreatedOn = DateTime.Now;
 					}
 
 					entry.Entity.LastModifiedOn = DateTime.UtcNow;
-					entry.Entity.LastModifiedBy = loggedInUserService.UserId!;
+					entry.Entity.LastModifiedBy = loggedInUserService.UserId ?? "1";
 
 				}
 
