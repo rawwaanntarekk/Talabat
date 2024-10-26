@@ -9,7 +9,7 @@ using System.Text;
 
 namespace LinkDev.Talabat.APIs.Extensions
 {
-    public  static class IdentityExtenstions
+    public static class IdentityExtenstions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration _configuration)
         {
