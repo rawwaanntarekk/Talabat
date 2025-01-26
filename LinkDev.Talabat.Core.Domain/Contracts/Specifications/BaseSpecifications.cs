@@ -45,5 +45,7 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Specifications
 			Skip = skip;
 			Take = take;
 		}
+
+		public virtual void AddIncludes() { }
     }
 }
