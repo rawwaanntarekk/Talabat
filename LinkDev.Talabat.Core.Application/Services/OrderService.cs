@@ -43,7 +43,7 @@ namespace LinkDev.Talabat.Core.Application.Services
 
             }
 
-            return orderItems;
+            return  orderItems;
 
 
         }
@@ -58,7 +58,7 @@ namespace LinkDev.Talabat.Core.Application.Services
             ICollection<OrderItem> orderItems;
 
             if (basket!.Items.Count() > 0)
-                orderItems = (ICollection<OrderItem>)GetOrderItems(basket);
+                orderItems = await (GetOrderItems(basket));
             else
                 orderItems = Array.Empty<OrderItem>();
 
@@ -79,6 +79,7 @@ namespace LinkDev.Talabat.Core.Application.Services
                 Items = orderItems,
                 Subtotal = subTotal,
                 DeliveryMethodId = order.DeliveryMethodId,
+                DeliveryMethod = await _unitOfWork.GetRepository<DeliveryMethod, int>().GetAsync(order.DeliveryMethodId)
 
             };
 

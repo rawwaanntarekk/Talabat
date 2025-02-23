@@ -10,16 +10,29 @@ namespace LinkDev.Talabat.Infrasturcture
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient(typeof(IConnectionMultiplexer), (serviceProvider) =>
+            services.AddSingleton<IConnectionMultiplexer>(serviceProvider =>
             {
-                var connectionString = configuration.GetConnectionString("Redis");
-                var connectionMultiplexerObj = ConnectionMultiplexer.Connect(connectionString!);
-                return connectionMultiplexerObj;
+                try
+                {
+                    var connectionString = configuration.GetConnectionString("Redis");
+                    if (string.IsNullOrWhiteSpace(connectionString))
+                    {
+                        throw new InvalidOperationException("Redis connection string is missing.");
+                    }
+                    var connectionMultiplexerObj = ConnectionMultiplexer.Connect(connectionString);
+                    return connectionMultiplexerObj;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Redis Connection Error: {ex.Message}");
+                    throw;
+                }
             });
 
             services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
-
             return services;
+
+
         }
     }
 }

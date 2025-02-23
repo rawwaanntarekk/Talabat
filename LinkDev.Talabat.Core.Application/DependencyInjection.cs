@@ -3,6 +3,7 @@ using LinkDev.Talabat.Core.Application.Abstraction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Abstraction.Services.Orders;
 using LinkDev.Talabat.Core.Application.Mapping;
 using LinkDev.Talabat.Core.Application.Services;
+using LinkDev.Talabat.Core.Application.Services.Basket;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinkDev.Talabat.Core.Application
@@ -16,7 +17,7 @@ namespace LinkDev.Talabat.Core.Application
 
 			services.AddScoped(typeof(IServiceManager), typeof(ServiceManager));
 
-			// services.AddScoped(typeof(IBasketService), typeof(BasketService));
+			services.AddScoped(typeof(IBasketService), typeof(BasketService));
 
 
 			services.AddScoped(typeof(Func<IBasketService>), (servicesProvider) =>
@@ -31,10 +32,9 @@ namespace LinkDev.Talabat.Core.Application
 
 			});
 
-			// Uncomment it if any problem happens with the services.
-            // services.AddScoped(typeof(IOrderService), typeof(OrderServiceketService));
+			services.AddScoped(typeof(IOrderService), typeof(OrderService));
 
-            services.AddScoped(typeof(Func<IOrderService>), (servicesProvider) =>
+			services.AddScoped(typeof(Func<IOrderService>), (servicesProvider) =>
 			{
 
 				return () => servicesProvider.GetRequiredService<IOrderService>();
