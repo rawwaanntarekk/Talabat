@@ -1,14 +1,9 @@
 ﻿using LinkDev.Talabat.Core.Domain.Products;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Config.Products
 {
-    internal class BrandConfigurations : BaseAuditEntityConfigurations<ProductBrand, int>
+	internal class BrandConfigurations : BaseAuditEntityConfigurations<ProductBrand, int>
     {
         public override void Configure(EntityTypeBuilder<ProductBrand> builder)
         {
@@ -17,6 +12,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Config.Products
             builder.Property(b => b.Name)
                    .IsRequired();
 
+            builder.HasIndex(b => b.Name);
 
         }
     }

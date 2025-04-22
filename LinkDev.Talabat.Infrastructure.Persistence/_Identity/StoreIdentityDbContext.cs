@@ -1,21 +1,14 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities.Identity;
-using LinkDev.Talabat.Infrastructure.Persistence._Identity.Config;
 using LinkDev.Talabat.Infrastructure.Persistence.Common;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Reflection;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
 {
-    public class StoreIdentityDbContext : IdentityDbContext<ApplicationUser>
+    public class StoreIdentityDbContext(DbContextOptions<StoreIdentityDbContext> dbContextOptions,
+                                        SaveChangesInterceptor _saveChangesInterceptor) : IdentityDbContext<ApplicationUser>(dbContextOptions)
     {
-        public StoreIdentityDbContext(DbContextOptions<StoreIdentityDbContext> dbContextOptions)
-        :base(dbContextOptions)
-        {
-            
-            
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -28,6 +21,11 @@ namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
 
 
 
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.AddInterceptors(_saveChangesInterceptor);
         }
 
 

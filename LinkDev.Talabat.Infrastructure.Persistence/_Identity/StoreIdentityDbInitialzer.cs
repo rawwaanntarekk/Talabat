@@ -6,10 +6,20 @@ using Microsoft.AspNetCore.Identity;
 namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
 {
     internal class StoreIdentityDbInitialzer(StoreIdentityDbContext _dbContext,
-                                            UserManager<ApplicationUser> _userManager) : DbInitialzer(_dbContext), IStoreIdentityDbInitializer
+                                            UserManager<ApplicationUser> _userManager,
+                                            RoleManager<IdentityRole> _roleManager) : DbInitialzer(_dbContext), IStoreIdentityDbInitializer
     {
         public override async Task SeedAsync()
         {
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                var adminRole = new IdentityRole();
+                adminRole.Name = "Admin";
+                await  _roleManager.CreateAsync(adminRole);
+                
+            }
+
+
             if (!_userManager.Users.Any())
             {
                 var user = new ApplicationUser
@@ -23,8 +33,18 @@ namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
                 await _userManager.CreateAsync(user, "P@ssw0rd");
 
                 await _dbContext.Users.AddAsync(user);
+
+                if (!await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                }
+
                 await _dbContext.SaveChangesAsync();
             }
+
+
+
+
         }
     }
 }
