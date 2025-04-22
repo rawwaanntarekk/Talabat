@@ -26,11 +26,8 @@ namespace LinkDev.Talabat.APIs
                                               options.InvalidModelStateResponseFactory = (actionContext) =>
                                               {
                                                   var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count > 0)
-                                                                                       .Select(P => new ApiValidationErrorResponse.ValidationError()
-                                                                                       {
-                                                                                           Field = P.Key,
-                                                                                           Errors = P.Value!.Errors.Select(e => e.ErrorMessage)
-                                                                                       });
+                                                                                       .SelectMany(P => P.Value!.Errors)
+                                                                                       .Select(E => E.ErrorMessage);
 
                                                   return new BadRequestObjectResult(new ApiValidationErrorResponse()
                                                   {
@@ -54,13 +51,15 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
+            webApplicationBuilder.Services.AddIdentityServices(webApplicationBuilder.Configuration);
+           
             #endregion
 
             var app = webApplicationBuilder.Build();
 
             #region Databases Initialization
 
-            await app.InitializeStoreContextAsync();
+            await app.InitializeDbAsync();
 
             #endregion
 

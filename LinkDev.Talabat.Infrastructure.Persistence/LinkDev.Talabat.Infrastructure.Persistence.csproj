@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Data Seeding\**" />
-    <EmbeddedResource Remove="Data\Data Seeding\**" />
-    <None Remove="Data\Data Seeding\**" />
+    <Compile Remove="_Data\Data Seeding\**" />
+    <EmbeddedResource Remove="_Data\Data Seeding\**" />
+    <None Remove="_Data\Data Seeding\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\LinkDev.Talabat.Core.Application.Abstraction\LinkDev.Talabat.Core.Application.Abstraction.csproj" />
     <ProjectReference Include="..\LinkDev.Talabat.Core.Domain\LinkDev.Talabat.Core.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="_Identity\Interceptors\" />
+    <Folder Include="_Identity\Migrations\" />
+    <Folder Include="_Identity\Seeds\" />
   </ItemGroup>
 
 </Project>
