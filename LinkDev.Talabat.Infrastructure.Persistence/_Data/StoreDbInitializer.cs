@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 {
-    class StoreDbInitializer(StoreDbContext _dbContext) : DbInitialzer(_dbContext), IStoreDbInitializer
+    public class StoreDbInitializer(StoreDbContext _dbContext) : DbInitialzer(_dbContext), IStoreDbInitializer
     {
        
 

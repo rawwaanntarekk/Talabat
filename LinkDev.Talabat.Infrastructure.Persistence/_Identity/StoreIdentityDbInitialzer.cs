@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
 {
-    internal class StoreIdentityDbInitialzer(StoreIdentityDbContext _dbContext,
+    public class StoreIdentityDbInitialzer(StoreIdentityDbContext _dbContext,
                                             UserManager<ApplicationUser> _userManager) : DbInitialzer(_dbContext), IStoreIdentityDbInitializer
     {
         public override async Task SeedAsync()

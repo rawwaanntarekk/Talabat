@@ -2,7 +2,7 @@
 
 namespace LinkDev.Talabat.Infrastructure.Persistence._Common
 {
-    internal abstract class DbInitialzer (DbContext _dbContext) : IDbInitializer
+    public abstract class DbInitialzer (DbContext _dbContext) : IDbInitializer
     {
         public async Task InitializeAsync()
         {
