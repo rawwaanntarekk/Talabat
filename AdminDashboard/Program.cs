@@ -46,9 +46,9 @@ namespace AdminDashboard
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
             {
                 identityOptions.User.RequireUniqueEmail = true;
-                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
-                identityOptions.SignIn.RequireConfirmedAccount = true;
-                identityOptions.SignIn.RequireConfirmedEmail = true;
+                //identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+                //identityOptions.SignIn.RequireConfirmedAccount = true;
+                //identityOptions.SignIn.RequireConfirmedEmail = true;
 
 
                 identityOptions.Lockout.AllowedForNewUsers = true;
@@ -77,7 +77,7 @@ namespace AdminDashboard
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Admin}/{action=Login}/{id?}");
 
             app.Run();
         }

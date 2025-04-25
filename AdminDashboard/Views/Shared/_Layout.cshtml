@@ -23,7 +23,7 @@
                             <li><a class="dropdown-item" href="#!">Settings</a></li>
                             <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#!">Logout</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="Logout">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -86,10 +86,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> *@
     <script src="~/js/scripts.js"></script>
-    <script src="~/js/datatables-simple-demo.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    
 
 </body>
 </html>
