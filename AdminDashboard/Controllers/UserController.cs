@@ -35,6 +35,7 @@ namespace AdminDashboard.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Edit(string Id )
+        
         {
             var User = await _userManager.FindByIdAsync(Id);
 

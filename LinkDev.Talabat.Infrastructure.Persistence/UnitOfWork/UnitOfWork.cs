@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 {
-    internal class UnitOfWork(StoreDbContext dbContext) : IUnitOfWork
+    public class UnitOfWork(StoreDbContext dbContext) : IUnitOfWork
     {
         private readonly ConcurrentDictionary<string, object> _repositories = new();
 

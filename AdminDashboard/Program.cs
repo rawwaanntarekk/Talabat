@@ -1,8 +1,10 @@
+using AdminDashboard.Helpers;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence._Identity;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +29,8 @@ namespace AdminDashboard
                   });
 
             builder.Services.AddScoped(typeof(IStoreDbInitializer), typeof(StoreDbInitializer));
+
+
 
             #endregion
 
@@ -57,6 +61,9 @@ namespace AdminDashboard
 
             })
             .AddEntityFrameworkStores<StoreIdentityDbContext>();
+
+            builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             var app = builder.Build();
 
